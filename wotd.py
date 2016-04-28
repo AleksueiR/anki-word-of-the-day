@@ -2,7 +2,6 @@ import json
 import tempfile
 import urllib2
 from datetime import datetime
-from string import Template
 
 # http://www.dictionary.com/ajax/wotd/2016/4/18/6/0/2016-04-25
 
@@ -110,12 +109,12 @@ class DictionaryComWotd(Wotd):
     def __init__(self):
         Wotd.__init__(self)
 
-        self.image_prefix = u'http://static.sfdict.com/sizedimage/sizedimage?width=455&height=455&url=${image}'
-        self.url = u'http://www.dictionary.com/ajax/wotd/${date}'
+        self.image_prefix = u'http://static.sfdict.com/sizedimage/sizedimage?width=455&height=455&url={0}'
+        self.url = u'http://www.dictionary.com/ajax/wotd/{0}'
 
     def today(self):
         today = datetime.now().strftime('%Y/%m/%d')
-        entryUrl = Template(self.url).substitute(date=today)
+        entryUrl = self.url.format(today)
         entryData, type = self.getRawData(entryUrl)
 
         print json.loads(entryData)
