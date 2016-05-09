@@ -5,18 +5,19 @@ from datetime import datetime
 
 # http://www.dictionary.com/ajax/wotd/2016/4/18/6/0/2016-04-25
 
-
 # imageUrl = "http://static.sfdict.com/sizedimage/sizedimage?width=455&height=455&url=" + data['2016-04-27']['imageUrl']
 
-# urllib.urlretrieve (imageUrl, "image.png")
+# urllib.urlretrieve (imageUrl, "_image.png")
 
 # pprint.pprint(imageUrl)
 
 
 fileTypes = {
+    "application/ogg": ".ogg",
     "audio/basic":	".au",
     "audio/mid":	".mid",
     "audio/mpeg":	".mp3",
+    "audio/ogg": ".ogg",
     "audio/x-aiff":	".aif",
     "audio/x-mpegurl": ".m3u",
     "audio/x-pn-realaudio":	".ra",
@@ -36,7 +37,8 @@ fileTypes = {
     "image/x-icon": ".ico"
 }
 
-class Wotd(object):
+
+class Source(object):
 
     def __init__(self):
         # User agent string that can be used for requests.
@@ -49,7 +51,7 @@ class Wotd(object):
 
     def getRawData(self, url):
         """
-        Return raw data loaded from an URL.
+        Return raw data loaded from an URL and type from the headers.
 
         Helper function. Put in an URL and it sets the agent, sends
         the requests, checks that we got error code 200 and returns
@@ -81,7 +83,7 @@ class Wotd(object):
         """
         Download raw data from url and put into a tempfile
 
-        Wrapper helper function aronud self.get_data_from_url().
+        Wrapper helper function around self.get_data_from_url().
         """
 
         data, fileType = self.getRawData(url)
@@ -102,30 +104,3 @@ class Wotd(object):
         tfile.close()
 
         return tfile.name
-
-
-class DictionaryComWotd(Wotd):
-
-    def __init__(self):
-        Wotd.__init__(self)
-
-        self.image_prefix = u'http://static.sfdict.com/sizedimage/sizedimage?width=455&height=455&url={0}'
-        self.url = u'http://www.dictionary.com/ajax/wotd/{0}'
-
-    def today(self):
-        today = datetime.now().strftime('%Y/%m/%d')
-        entryUrl = self.url.format(today)
-        entryData, type = self.getRawData(entryUrl)
-
-        print json.loads(entryData)
-
-        soundUrl = u'http://static.sfdict.com/staticrep/dictaudio/M04/M0409900.mp3'
-        soundFilePath = self.getTempFile(soundUrl)
-
-        print soundFilePath
-
-
-        imageUrl = u'https://avatars1.githubusercontent.com/u/2285779?v=3&s=460'
-        imageFilePath = self.getTempFile(imageUrl)
-
-        print imageFilePath

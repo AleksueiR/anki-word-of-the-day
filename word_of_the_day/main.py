@@ -1,13 +1,12 @@
+from word_of_the_day.sources.dictionary_com import DictionaryComSource
 
+dictionaryComWotd = DictionaryComSource()
+wotd = dictionaryComWotd.today
 
-
-from wotd import DictionaryComWotd
-
-
-dictionaryComWotd = DictionaryComWotd()
-dictionaryComWotd.today()
-
-
+print wotd.definition
+print wotd.transcription
+print wotd.audio_file
+print wotd.image_file
 
 
 
@@ -17,7 +16,7 @@ dictionaryComWotd.today()
 #from PIL import Image, ImageFilter
 
 #Read image
-#im = Image.open("image.png")
+# im = Image.open("_image.png")
 #http://pillow.readthedocs.org/en/3.0.x/handbook/tutorial.html#copying-a-subrectangle-from-an-image
 #crop = im.crop((0, 55, 455, 395))
 #crop.load()
