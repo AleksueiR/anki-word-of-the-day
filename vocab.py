@@ -18,8 +18,10 @@ from bs4 import BeautifulSoup
 
 def get_description():
     url = "https://www.vocabulary.com/dictionary/definition.ajax?search={0}&lang=en"
-
     regex = r"^(?P<word>.*?)( \d\.)?$"
+
+    ## note = mw.reviewer.card.note()
+    ## word = note["Word"]
 
     word = "Barn 2."
 
@@ -44,8 +46,7 @@ def get_description():
     print(shortd.prettify())
     print(longd.prettify())
 
-    ## note = mw.reviewer.card.note()
-    ## note["Notes"] = shortd.prettify()
+    ## note["Notes"] = shortd.text
     ## note.flush()
 
 ## # create a new menu item, "test"
