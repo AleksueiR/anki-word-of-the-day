@@ -16,7 +16,11 @@ def get_description(word):
     if not match:
         return
 
-    request = requests.get(url.format(match.group("word")))
+    true_word = match.group("word").lower()
+
+    print('getting ' + true_word, end='')
+
+    request = requests.get(url.format(true_word))
     page = request.text
 
     soup = BeautifulSoup(page, 'html.parser')
@@ -25,10 +29,13 @@ def get_description(word):
     longd = soup.find("p", class_="long")
 
     if not shortd and not longd:
-        print('no descriptions')
+        print(' ---> ✕', end='')
         return ['', '']
 
+    print(' ---> ✔', end='')
     # print(shortd.prettify())
     # print(longd.prettify())
 
-    return [shortd.prettify().strip(), longd.prettify().strip()]
+    return [bytes.decode(shortd.encode_contents()), bytes.decode(longd.encode_contents())]
+
+    #return [shortd.prettify().strip().replace('\n', ''), longd.prettify().strip().replace('\n', '')]
